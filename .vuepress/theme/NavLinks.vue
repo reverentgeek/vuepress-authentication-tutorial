@@ -38,7 +38,7 @@
 import DropdownLink from './DropdownLink.vue'
 import { resolveNavLinkItem } from './util'
 import NavLink from './NavLink.vue'
-import LoginLink from "./LoginLink.vue"
+import LoginLink from './LoginLink.vue'
 
 export default {
   components: { NavLink, DropdownLink, LoginLink },

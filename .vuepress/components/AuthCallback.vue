@@ -6,7 +6,7 @@
 import { redirect } from "./util";
 
 export default {
-  async mounted() {
+  async beforeMount() {
     // Process the auth tokens
     await this.$auth.handleAuthentication();
 
@@ -20,9 +20,7 @@ export default {
 
     // Not ideal, but this forces the auth
     // to recognize the user is logged in
-    if ( window ) {
-      redirect( path );
-    }
+    window.location.replace( path );
   }
 }
 </script>
