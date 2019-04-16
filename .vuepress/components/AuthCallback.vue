@@ -3,8 +3,6 @@
 </template>
 
 <script>
-import { redirect } from "./util";
-
 export default {
   async beforeMount() {
     // Process the auth tokens

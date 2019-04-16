@@ -4,15 +4,15 @@ home: false
 
 # Add Authentication and Personalization to VuePress
 
-There are several advantages to using a static site generator such as VuePress. With VuePress, you are able to focus on writing content using markdown and the VuePress application generates static HTML files. VuePress also turns your content into a single-page application (SPA), so transitions between pages seem instant and seamless. The generated static files can be cached and distributed across a content delivery network (CDN) for even more performance. For the reader, VuePress creates a great experience.
+There are several advantages to using a static site generator such as VuePress. With VuePress, you can focus on writing content using markdown, and the VuePress application generates static HTML files. VuePress also turns your content into a single-page application (SPA), so transitions between pages seem instant and seamless. The generated static files can be cached and distributed across a content delivery network (CDN) for even more performance. For the reader, VuePress creates a great experience.
 
-However, building a static site does not mean you cannot add personalized touches to your content. In this tutorial, you will learn how to customize VuePress to create a personalized experience based on the person currently viewing the content.
+However, a "static" site does not mean you cannot add dynamic touches to your content. In this tutorial, you will learn how to customize VuePress to create a personalized experience based on the person currently viewing the content.
 
 ## Install VuePress
 
 > Note: To complete this tutorial, you must have [Node.js](https://nodejs.org) version 8 or higher installed, and a good text/code editor such as [Visual Studio Code](https://code.visualstudio.com/).
 
-The first step is to create a new folder on your computer for the VuePress project. Name it anything you like. VuePress is a command-line interface (CLI) application. Therefor, you will need to open your terminal (macOS or Linux) or command prompt (Windows). Change the current directory at your command line (terminal or command prompt) to the folder you created for the project. Next, use `npm` to initialize this folder.
+The first step is to create a new folder on your computer for the VuePress project. Name it anything you like. VuePress is a command-line interface (CLI) application. Therefore, you will need to open your terminal (macOS or Linux) or command prompt (Windows). Change the current directory at your command line (terminal or command prompt) to the folder you created for the project. Next, use `npm` to initialize this folder.
 
 ```bash
 npm init -y
@@ -24,7 +24,7 @@ Now install VuePress using `npm`.
 npm install vuepress@0.14
 ```
 
-Next, you need to add a couple of commands to the project for running your local VuePress website and building the application. Open your project folder in the code editor of your choice. Open the `package.json` file. Change the section labeled `"scripts"` to the following.
+Next, you need to add a couple of commands to the project for running your local VuePress website and building the application. Open your project folder in the code editor of your choice. Edit the `package.json` file and change the section labeled `"scripts"` to the following.
 
 ```javascript
   "scripts": {
@@ -51,15 +51,15 @@ Navigate in your browser to `http://localhost:8080`. You should see something li
 
 ![Hello VuePress](./hello-vuepress.jpg)
 
-You now have the beginnings of your own VuePress application!
+You now have a running VuePress application!
 
-One of the nice features of VuePress is it automatically updates your locally-running application with any changes you make. To demonstrate, leave the development server running at the command line. Make a change to `readme.md` file and save it. When you return to the browser, you should immediately see that change reflected without having to refresh the page!
+One of the excellent features of VuePress is it automatically updates your locally-running application with any changes you make. To demonstrate, leave the development server running at the command line. Make a change to `readme.md` file and save it. When you return to the browser, you should immediately see that change reflected without having to refresh the page!
 
 ## Configure VuePress
 
-Much of VuePress can be customized through [configuration](https://vuepress.vuejs.org/config/). In this step, you will configure your VuePress application to add a title and basic navigation.
+Much of VuePress is customizable through [configuration](https://vuepress.vuejs.org/config/). In this step, you will configure your VuePress application to add a title and basic navigation.
 
-Create a new folder in the project named `.vuepress`. Notice the period in front of the text. This is required. In the `.vuepress` folder, create a new file named `config.js`.
+Create a new folder in the project named `.vuepress`. Notice the period in front of the text, which is required. In the `.vuepress` folder, create a new file named `config.js`.
 
 ```javascript
 module.exports = {
@@ -80,7 +80,7 @@ Go back to your browser and view `http://localhost:8080`. You should now see an 
 
 ## Add Authentication to VuePress
 
-In the past, adding your own user login, registration, password reset, and other security features to an application was no trivial task. And, creating your own security also meant potential risk for you or your customers' data. Thankfully, today there are online services like [Okta](https://developer.okta.com) that take the pain and worry out of adding security to your applications.
+In the past, adding user login, registration, password reset, and other security features to an application was no trivial task. And, creating application security from scratch also meant potential risk for you or your customers' data. Thankfully, today there are online services like [Okta](https://developer.okta.com) that take the pain and worry out of adding security to your applications.
 
 ### Create an Okta Account
 
@@ -100,7 +100,7 @@ Enter a name for your application, such as **My VuePress**. Then, click **Done**
 
 ![Application Settings](./okta-04-app-settings.jpg)
 
-Near the bottom of the application page you will find a section titled **Client Credentials**. Copy the Client ID and paste it somewhere handy. You will need this later.
+Near the bottom of the application page, you will find a section titled **Client Credentials**. Copy the Client ID and paste it somewhere handy. You will need this later.
 
 ![Client Credentials](./okta-05-client-credentials.jpg)
 
@@ -251,9 +251,25 @@ Next, open the `NavLinks.vue` file in the `theme` folder. Make the following cha
 1. Add `import LoginLink from './LoginLink.vue'` to the list of `import` statements.
 1. Add `LoginLink` to the list of `components`.
 
-You code should look similar to this screenshot (changes are highlighted).
+Your code should look similar to the following snippet.
 
-![NavLinks code](./navlinks-code.jpg)
+```javascript
+      {{ repoLabel }}
+      <OutboundLink/>
+    </a>
+    <LoginLink />
+  </nav>
+</template>
+
+<script>
+import DropdownLink from './DropdownLink.vue'
+import { resolveNavLinkItem } from './util'
+import NavLink from './NavLink.vue'
+import LoginLink from './LoginLink.vue'
+
+export default {
+  components: { NavLink, DropdownLink, LoginLink },
+```
 
 Now for the moment of truth! Run your dev server again using `npm run dev`, and open your browser to `http://localhost:8080`. You should see a new **Login** link in the navigation!
 
@@ -268,3 +284,110 @@ Clicking on that link should redirect you to the Okta login page for your applic
 After logging in, you should be redirected back to the application with an updated **Sign out** link with your name.
 
 ![Hello Logged In](./hello-logged-in.jpg)
+
+## Add Personalization to VuePress
+
+There are times when writing documentation that it's necessary to instruct the reader to substitute some value with their own. You witnessed this earlier in this tutorial when you were asked to replace `{yourOktaDomain}` and `{yourClientId}` with your actual account values. Wouldn't it be great to do this for your readers automatically? You can!
+
+In this last step, you will add a library to VuePress to automatically replace a token such as `{email}` with the actual email of the current reader.
+
+In the `.vuepress/theme` folder, add a new file named `tokenReplacer.js`. Open this file and paste the following code.
+
+```javascript
+function scanChildNodes(node, results) {
+  if (node.childNodes.length) {
+    for (let i = 0; i < node.childNodes.length; i++) {
+      scanChildNodes(node.childNodes[i], results);
+    }
+  } else if (node.nodeType == Node.TEXT_NODE) {
+    results.push(node);
+  }
+}
+export function getAllTextNodes() {
+  const results = [];
+  scanChildNodes(document, results);
+  return results;
+}
+
+export function nodeReplace(nodes, token, value) {
+  nodes.forEach(node => {
+    node.nodeValue = node.nodeValue.replace(
+      new RegExp( `\{${ token }\}`, "gi" ),
+      value
+    );
+  });
+}
+```
+
+Next, open the `Layout.vue` file. There will be a total of four changes you need to make to this file. First, add the following line to the list of `imports`.
+
+```javascript
+import {getAllTextNodes, nodeReplace} from './tokenReplacer'
+```
+
+Second, add the following code as the first line inside the `mounted()` function.
+
+```javascript
+this.replaceTokens();
+```
+
+Third, change the `$router.afterEach()` function to the following:
+
+```javascript
+this.$router.afterEach(() => {
+  nprogress.done();
+  this.isSidebarOpen = false;
+  this.replaceTokens();
+});
+```
+
+Fourth, add the following function to the list of `methods`. Don't forget to add a comma after the `onSWUpdated` method. Here's the new method with `onSWUpdated`, for reference.
+
+```javascript
+onSWUpdated (e) {
+  this.swUpdateEvent = e
+},
+
+replaceTokens() {
+  this.$auth.getUser().then( user => {
+    if ( user ) {
+      const nodes = getAllTextNodes();
+      // Look for any occurrence of {yourEmail} and replace it with user's email
+      nodeReplace( nodes, "yourEmail", user.email );
+    }
+  });
+}
+```
+
+Last, update your `readme.md` to include a couple of tokens.
+
+```markdown
+# Hello VuePress
+
+This is going to be awesome!
+
+## Token Replacement Example
+
+When logged in, this value will be your actual email address: `{yourEmail}`
+```
+
+Now start your local dev server with `npm run dev` and view `http://localhost:8080`. Before login, you should see something like this.
+
+![Token before login](./token-sample-before-login.jpg)
+
+Log in and observe the value.
+
+![Token after login](./token-sample-after-login.jpg)
+
+Success! You can now move forward with adding support for more tokens.
+
+## Learn More About Vue and Authentication
+
+This post only scratches the surface of what Vue and VuePress can do. Want to learn more? Check out these other great posts!
+
+* [Build a Basic CRUD App with Vue.js and Node](https://developer.okta.com/blog/2018/02/15/build-crud-app-vuejs-node)
+* [Add Identity Management to Your Vue.js App](https://developer.okta.com/code/vue/)
+* [Add Authentication to Any Web Page in 10 Minutes](https://developer.okta.com/blog/2018/06/08/add-authentication-to-any-web-page-in-10-minutes)
+* [What the Heck is OAuth?](https://developer.okta.com/blog/2017/06/21/what-the-heck-is-oauth)
+
+You can find the complete project source code on [GitHub](https://github.com/reverentgeek/vuepress-authentication-tutorial).

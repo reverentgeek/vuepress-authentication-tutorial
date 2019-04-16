@@ -67,6 +67,7 @@ import SWUpdatePopup from './SWUpdatePopup.vue'
 import { resolveSidebarItems } from './util'
 import Auth from '@okta/okta-vue';
 import {oktaConfig} from '../oktaConfig';
+import {getAllTextNodes, nodeReplace} from './tokenReplacer'
 
 Vue.use(Auth, oktaConfig);
 
@@ -131,6 +132,8 @@ export default {
   },
 
   mounted () {
+    this.replaceTokens();
+
     window.addEventListener('scroll', this.onScroll)
 
     // configure progress bar
@@ -146,6 +149,7 @@ export default {
     this.$router.afterEach(() => {
       nprogress.done()
       this.isSidebarOpen = false
+      this.replaceTokens()
     })
 
     this.$on('sw-updated', this.onSWUpdated)
@@ -178,6 +182,17 @@ export default {
 
     onSWUpdated (e) {
       this.swUpdateEvent = e
+    },
+
+    replaceTokens() {
+      this.$auth.getUser().then( user => {
+        if ( user ) {
+          console.log( "replaceTokens user", user );
+          const nodes = getAllTextNodes();
+          // Look for any occurence of {yourEmail} and replace it with user's email
+          nodeReplace( nodes, "yourEmail", user.email );
+        }
+      });
     }
   }
 }
